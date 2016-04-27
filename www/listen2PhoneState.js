@@ -14,7 +14,7 @@ var phone_state =
                         phoneStateSuccessCallback,
                         phoneStateErrorCallback,
                         'PhoneStateDetection',
-                        'isInPhoneCall',
+                        'checkPhoneState',
                         [{
                                 "isRunning": this.isRunning
                             }]);
