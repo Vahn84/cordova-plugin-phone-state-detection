@@ -2,14 +2,12 @@ package com.vahn.cordova.phonestatedetection;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.PluginResult;
+
 import org.json.JSONArray;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
-import android.widget.Toast;
 
 public class PhoneStateDetection extends CordovaPlugin {
 
@@ -21,55 +19,36 @@ public class PhoneStateDetection extends CordovaPlugin {
 
     SharedPreferences prefs;
     Context context;
-    CustomPhoneStateListener cpsListener;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
 
-        // Route the Action
+        context = this.cordova.getActivity().getApplicationContext();
 
-        cpsListener = new CustomPhoneStateListener();
-        TelephonyManager TelephonyMgr = (TelephonyManager) cordova.getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        TelephonyMgr.listen(cpsListener, PhoneStateListener.LISTEN_CALL_STATE);
-        cpsListener.setCallbackContext(callbackContext);
+        return checkPhoneState(args, callbackContext);
 
-        return true;
+       
     }
 
-}
+    private boolean checkPhoneState(JSONArray args, CallbackContext callbackContext) {
 
-class CustomPhoneStateListener extends PhoneStateListener {
+        boolean isInPhoneCall;
+        boolean isPhoneRinging;
 
-    private CallbackContext callbackContext;
+        prefs = context.getSharedPreferences(PSD, Context.MODE_PRIVATE);
 
-    public void setCallbackContext(CallbackContext callbackContext) {
-        this.callbackContext = callbackContext;
-    }
+        isPhoneRinging = prefs.getBoolean(IS_PHONE_RINGING, false);
+        isInPhoneCall = prefs.getBoolean(CALL_HOOKED, false);
+        prefs.edit().remove(CALL_HOOKED).remove(IS_PHONE_RINGING).commit();
 
-    public void onCallStateChanged(int state, String incomingNumber) {
-        super.onCallStateChanged(state, incomingNumber);
+        if (isPhoneRinging) {
 
-        if (callbackContext == null) return;
+            return isInPhoneCall;
 
-        String msg = "";
-
-        switch (state) {
-            case TelephonyManager.CALL_STATE_IDLE:
-            msg = "IDLE";
-            break;
-
-            case TelephonyManager.CALL_STATE_OFFHOOK:
-            msg = "OFFHOOK";
-            break;
-
-            case TelephonyManager.CALL_STATE_RINGING:
-            msg = "RINGING";
-            break;
         }
 
-        PluginResult result = new PluginResult(PluginResult.Status.OK, msg);
-        result.setKeepCallback(true);
-
-        callbackContext.sendPluginResult(result);
+        return false;
     }
+
+
 }
