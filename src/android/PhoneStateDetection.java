@@ -7,7 +7,7 @@
 /**
  * @author vahn
  */
-package com.phonestatedetection.cordova.plugins;
+package com.vahn.cordova.phonestatedetection;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
