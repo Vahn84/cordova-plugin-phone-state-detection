@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
  
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-           id="it.vahn.cordova.plugins.phonestatedetection"
+           id="com.phonestatedetection.cordova.plugins"
       version="0.1.0">
     <name>Phone State Detection</name>
     <description>Phone State Detection Plugin</description>
@@ -18,7 +18,7 @@
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="PhoneStateDetection">
-                <param name="android-package" value="it.vahn.cordova.plugins.phonestatedetection.PhoneStateDetection"/>
+                <param name="android-package" value="com.phonestatedetection.cordova.plugins.PhoneStateDetection"/>
             </feature>
         </config-file>
 
@@ -32,9 +32,8 @@
         
         <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
-        <source-file src="src/android/PhoneStateDetection.java" target-dir="it.vahn.cordova.plugins.phonestatedetection/PhoneStateDetection" />      
-        <source-file src="src/android/CustomPhoneStateListener.java" target-dir="t.vahn.cordova.plugins.phonestatedetection/CustomPhoneStateListener" />    
-
-        <source-file src="src/android/PhoneStateBroadcastReceiver.java" target-dir="t.vahn.cordova.plugins.phonestatedetection/PhoneStateBroadcastReceiver" />      
+        <source-file src="src/android/PhoneStateDetection.java" target-dir="com.phonestatedetection.cordova.plugins/" />      
+        <source-file src="src/android/CustomPhoneStateListener.java" target-dir="com.phonestatedetection.cordova.plugins/" />    
+        <source-file src="src/android/PhoneStateBroadcastReceiver.java" target-dir="com.phonestatedetection.cordova.plugins/" />      
      </platform>          
 </plugin>
