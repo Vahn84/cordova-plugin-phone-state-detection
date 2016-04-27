@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+           id="it.vahn.cordova.plugins.phonestatedetection"
+      version="0.1.0">
+    <name>Phone State Detection</name>
+    <description>Phone State Detection Plugin</description>
+    <license>MIT</license>
+    <author>Vahn</author>
+    <keywords>phonegap,phone state detection</keywords>
+ 
+ 
+    <js-module src="www/liste2PhoneState.js" name="PhoneStateDetection">
+        <clobbers target="window.phone_state" />
+    </js-module>
+ 
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="PhoneStateDetection">
+                <param name="android-package" value="it.vahn.cordova.plugins.phonestatedetection.PhoneStateDetection"/>
+            </feature>
+        </config-file>
+ 
+        <source-file src="src/android/PhoneStateDetection.java" target-dir="it/vahn/cordova/plugins/phonestatedetection/PhoneStateDetection" />      
+     </platform>          
+</plugin>
