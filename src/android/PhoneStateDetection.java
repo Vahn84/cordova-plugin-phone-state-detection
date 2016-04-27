@@ -26,7 +26,7 @@ public class PhoneStateDetection extends CordovaPlugin {
         Log.d("action", "execute action: " + action);
 
         // Route the Action
-        if (action.equals(ACTION_CHECK_PHONE_STATE)) {
+        if (action.equals("checkPhoneState")) {
             return isInPhoneCall(args, callbackContext);
         }
 
