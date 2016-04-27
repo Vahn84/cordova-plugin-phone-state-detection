@@ -40,7 +40,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
        
     }
 
-    private void checkPhoneState(JSONArray args, CallbackContext callbackContext, context) {
+    private void checkPhoneState(JSONArray args, CallbackContext callbackContext, Context context) {
 
         Log.d("inside Check", "checkPhoneState");
 
