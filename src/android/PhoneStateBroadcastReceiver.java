@@ -1,4 +1,4 @@
-
+package com.vahn.cordova.phonestatedetection
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
