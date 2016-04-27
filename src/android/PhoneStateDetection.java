@@ -29,7 +29,7 @@ public class PhoneStateDetection extends CordovaPlugin {
 
         cpsListener = new CustomPhoneStateListener();
         TelephonyManager TelephonyMgr = (TelephonyManager) cordova.getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        TelephonyMgr.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
+        TelephonyMgr.listen(cpsListener, PhoneStateListener.LISTEN_CALL_STATE);
         cpsListener.setCallbackContext(callbackContext);
 
        
