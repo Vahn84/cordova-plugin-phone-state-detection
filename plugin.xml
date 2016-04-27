@@ -10,7 +10,7 @@
     <keywords>phonegap,phone state detection</keywords>
  
  
-    <js-module src="www/liste2PhoneState.js" name="PhoneStateDetection">
+    <js-module src="www/listen2PhoneState.js" name="PhoneStateDetection">
         <clobbers target="window.phone_state" />
     </js-module>
  
