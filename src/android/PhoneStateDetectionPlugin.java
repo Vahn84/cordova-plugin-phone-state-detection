@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-public class PhoneStateDetection extends CordovaPlugin {
+public class PhoneStateDetectionPlugin extends CordovaPlugin {
 
 
     public static final String ACTION_CHECK_PHONE_STATE = "checkPhoneState";

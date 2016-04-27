@@ -12,7 +12,7 @@ var phone_state =
                 cordova.exec(
                         phoneStateSuccessCallback,
                         phoneStateErrorCallback,
-                        'PhoneStateDetection',
+                        'PhoneStateDetectionPlugin',
                         'checkPhoneState',
                         []
                             );
