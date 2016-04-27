@@ -1,4 +1,4 @@
-package it.vahn.cordova.plugins.phonestatedetection;
+package com.phonestatedetection.cordova.plugins;
 
 import android.content.Context;
 import android.content.SharedPreferences;
