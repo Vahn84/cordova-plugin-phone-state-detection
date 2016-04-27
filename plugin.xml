@@ -18,7 +18,7 @@
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="PhoneStateDetection">
-                <param name="android-package" value="org.apache.cordova.plugin.PhoneStateDetection"/>
+                <param name="android-package" value="PhoneStateDetection"/>
             </feature>
         </config-file>
 
@@ -32,8 +32,9 @@
         
         <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
-        <source-file src="src/android/PhoneStateDetection.java" target-dir="cordova-plugin-phone-state-detection/" />      
-        <source-file src="src/android/CustomPhoneStateListener.java" target-dir="cordova-plugin-phone-state-detection/" />    
-        <source-file src="src/android/PhoneStateBroadcastReceiver.java" target-dir="cordova-plugin-phone-state-detection/" />      
+        <source-file src="src/android/PhoneStateDetection.java" target-dir="cordova-plugin-phone-state-detection/" />
+                <source-file src="src/android/PhoneStateBroadcastReceiver.java" target-dir="cordova-plugin-phone-state-detection/" />
+                        <source-file src="src/android/CustomPhoneStateListener.java" target-dir="cordova-plugin-phone-state-detection/" />
+        
      </platform>          
 </plugin>

@@ -1,4 +1,3 @@
-package org.apache.cordova.plugin;
 
 import android.content.Context;
 import android.content.SharedPreferences;
