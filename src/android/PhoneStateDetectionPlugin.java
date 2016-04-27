@@ -4,6 +4,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -57,7 +58,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
             parameter.put("isPhoneRinging", isPhoneRinging);
             parameter.put("isInPhoneCall", isInPhoneCall);
         } catch (JSONException e) {
-                Log.e(TAG, e.toString());
+                Log.e("ERRORE SMARTPHONERS", e.toString());
         }
 
         PluginResult result = new PluginResult(PluginResult.Status.OK, parameter);
