@@ -3,8 +3,11 @@ package com.vahn.cordova.phonestatedetection;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 
-import org.json.JSONObject;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.apache.cordova.api.Plugin
+import org.apache.cordova.api.PluginResult;
 
 import android.content.Context;
 import android.content.SharedPreferences;
