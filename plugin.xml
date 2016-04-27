@@ -36,7 +36,7 @@
         
 
         <source-file src="src/android/PhoneStateDetection.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
-        <source-file src="src/android/CustomPhoneStateLis.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
+        <source-file src="src/android/CustomPhoneStateListener.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         <source-file src="src/android/PhoneStateDetection.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         
      </platform>          
