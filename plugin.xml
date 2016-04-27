@@ -22,19 +22,11 @@
             </feature>
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-                <receiver android:name=".PhoneStateBroadcastReceiver" >
-                    <intent-filter>
-                        <action android:name="android.intent.action.PHONE_STATE" />
-                    </intent-filter>
-                </receiver>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.READ_PHONE_STATE" />
         </config-file>
-        
-        <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
         <source-file src="src/android/PhoneStateDetection.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
-        <source-file src="src/android/PhoneStateBroadcastReceiver.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
-        <source-file src="src/android/CustomPhoneStateListener.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         
      </platform>          
 </plugin>
