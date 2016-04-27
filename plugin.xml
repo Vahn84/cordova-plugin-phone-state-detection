@@ -10,14 +10,14 @@
     <keywords>phonegap,phone state detection</keywords>
  
  
-    <js-module src="www/listen2PhoneState.js" name="PhoneStateDetection">
+    <js-module src="www/listen2PhoneState.js" name="PhoneStateDetectionPlugin">
         <clobbers target="window.phone_state" />
     </js-module>
  
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="PhoneStateDetection">
+            <feature name="PhoneStateDetectionPlugin">
                 <param name="android-package" value="com.vahn.cordova.phonestatedetection.PhoneStateDetectionPlugin"/>
             </feature>
         </config-file>
@@ -37,7 +37,7 @@
 
         <source-file src="src/android/PhoneStateDetectionPlugin.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         <source-file src="src/android/CustomPhoneStateListener.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
-        <source-file src="src/android/PhoneStateDetection.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
+        <source-file src="src/android/PhoneStateBroadcastReceiver.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         
      </platform>          
 </plugin>
