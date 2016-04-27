@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import com.vahn.cordova.phonestatedetection.CustomPhoneStateListener;
 
 /**
  * Created by vahn on 27/04/16.

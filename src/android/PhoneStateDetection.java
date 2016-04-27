@@ -25,30 +25,30 @@ public class PhoneStateDetection extends CordovaPlugin {
 
         context = this.cordova.getActivity().getApplicationContext();
 
-        return checkPhoneState(args, callbackContext);
+        return true;//checkPhoneState(args, callbackContext);
 
        
     }
 
-    private boolean checkPhoneState(JSONArray args, CallbackContext callbackContext) {
+    // private boolean checkPhoneState(JSONArray args, CallbackContext callbackContext) {
 
-        boolean isInPhoneCall;
-        boolean isPhoneRinging;
+    //     boolean isInPhoneCall;
+    //     boolean isPhoneRinging;
 
-        prefs = context.getSharedPreferences(PSD, Context.MODE_PRIVATE);
+    //     prefs = context.getSharedPreferences(PSD, Context.MODE_PRIVATE);
 
-        isPhoneRinging = prefs.getBoolean(IS_PHONE_RINGING, false);
-        isInPhoneCall = prefs.getBoolean(CALL_HOOKED, false);
-        prefs.edit().remove(CALL_HOOKED).remove(IS_PHONE_RINGING).commit();
+    //     isPhoneRinging = prefs.getBoolean(IS_PHONE_RINGING, false);
+    //     isInPhoneCall = prefs.getBoolean(CALL_HOOKED, false);
+    //     prefs.edit().remove(CALL_HOOKED).remove(IS_PHONE_RINGING).commit();
 
-        if (isPhoneRinging) {
+    //     if (isPhoneRinging) {
 
-            return isInPhoneCall;
+    //         return isInPhoneCall;
 
-        }
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
 
 }
