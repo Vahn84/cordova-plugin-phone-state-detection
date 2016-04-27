@@ -23,8 +23,6 @@ public class PhoneStateDetection extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
 
-        Log.d("action", "execute action: " + action);
-
         // Route the Action
         if (action.equals("checkPhoneState")) {
             return isInPhoneCall(args, callbackContext);
