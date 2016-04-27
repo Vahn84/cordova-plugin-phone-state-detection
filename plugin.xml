@@ -23,7 +23,7 @@
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-                <receiver android:name=".PhoneStateBroadcastReceiver" >
+                <receiver android:name="com.vahn.cordova.phonestatedetection.PhoneStateBroadcastReceiver" >
                     <intent-filter>
                         <action android:name="android.intent.action.PHONE_STATE" />
                     </intent-filter>
@@ -36,8 +36,8 @@
         
 
         <source-file src="src/android/PhoneStateDetection.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
-        <source-file src="src/android/CustomPhoneStateListener.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
-        <source-file src="src/android/PhoneStateBroadcastReceiver.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
+        <source-file src="src/android/CustomPhoneStateLis.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
+        <source-file src="src/android/PhoneStateDetection.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         
      </platform>          
 </plugin>
