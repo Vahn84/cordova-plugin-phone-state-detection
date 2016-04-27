@@ -23,22 +23,26 @@ public class PhoneStateDetection extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
 
+        context = this.cordova.getActivity().getApplicationContext();
         // Route the Action
-        if (action.equals("checkPhoneState")) {
-            return isInPhoneCall(args, callbackContext);
+        if (action.equals(ACTION_CHECK_PHONE_STATE)) {
+            return checkPhoneState(args, callbackContext);
         }
 
-        // Action not found
-        callbackContext.error("action not recognised");
-        return false;
+        else {
+             // Action not found
+            callbackContext.error("action not recognised");
+            return false;
+        }
+
+       
     }
 
-    private boolean isInPhoneCall(JSONArray args, CallbackContext callbackContext) {
+    private boolean checkPhoneState(JSONArray args, CallbackContext callbackContext) {
 
         boolean isInPhoneCall;
         boolean isPhoneRinging;
 
-        context = this.cordova.getActivity().getApplicationContext();
         prefs = context.getSharedPreferences(PSD, Context.MODE_PRIVATE);
 
         isPhoneRinging = prefs.getBoolean(IS_PHONE_RINGING, false);
