@@ -23,7 +23,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
 
-        Log.d("action", action);
+        //Log.d("action", action);
         context = this.cordova.getActivity().getApplicationContext();
         // Route the Action
         if (action.equals(ACTION_CHECK_PHONE_STATE)) {
@@ -36,6 +36,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
             return false;
         }
 
+        return false;
        
     }
 
