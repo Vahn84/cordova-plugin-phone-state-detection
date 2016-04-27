@@ -33,7 +33,7 @@ public class PhoneStateDetection extends CordovaPlugin {
         TelephonyMgr.listen(cpsListener, PhoneStateListener.LISTEN_CALL_STATE);
         cpsListener.setCallbackContext(callbackContext);
 
-       
+        return true;
     }
 
 }
