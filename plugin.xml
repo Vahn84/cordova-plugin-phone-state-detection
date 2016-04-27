@@ -11,7 +11,7 @@
  
  
     <js-module src="www/listen2PhoneState.js" name="PhoneStateDetectionPlugin">
-        <clobbers target="window.phone_state" />
+        
     </js-module>
  
     <!-- android -->
@@ -32,6 +32,9 @@
         
         <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+        </config-file>        
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
         </config-file>
         
 
