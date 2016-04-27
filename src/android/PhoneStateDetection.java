@@ -1,4 +1,4 @@
-package com.vahn.cordova.phonestatedetection
+package com.vahn.cordova.phonestatedetection;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
