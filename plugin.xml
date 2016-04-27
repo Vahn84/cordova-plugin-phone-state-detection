@@ -21,7 +21,20 @@
                 <param name="android-package" value="it.vahn.cordova.plugins.phonestatedetection.PhoneStateDetection"/>
             </feature>
         </config-file>
- 
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+                <receiver android:name=".PhoneStateBroadcastReceiver" >
+                    <intent-filter>
+                        <action android:name="android.intent.action.PHONE_STATE" />
+                    </intent-filter>
+                </receiver>
+        </config-file>
+        
+        <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
         <source-file src="src/android/PhoneStateDetection.java" target-dir="it/vahn/cordova/plugins/phonestatedetection/PhoneStateDetection" />      
+        <source-file src="src/android/CustomPhoneStateListener.java" target-dir="it/vahn/cordova/plugins/phonestatedetection/CustomPhoneStateListener" />    
+
+        <source-file src="src/android/PhoneStateBroadcastReceiver.java" target-dir="it/vahn/cordova/plugins/phonestatedetection/PhoneStateBroadcastReceiver" />      
      </platform>          
 </plugin>
