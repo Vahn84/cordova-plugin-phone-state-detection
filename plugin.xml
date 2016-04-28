@@ -30,7 +30,7 @@
                 </receiver>
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-                <receiver android:name="com.vahn.cordova.phonestatedetection.CustomPhoneStateBroadcastReceiver" >
+                <receiver android:name="com.vahn.cordova.phonestatedetection.PhoneStateDetectionPlugin" >
                     <intent-filter>
                         <action android:name="com.vahn.cordova.phonestatedetection.BROADCAST_PHONE_STATE_EVENT" />
                     </intent-filter>
