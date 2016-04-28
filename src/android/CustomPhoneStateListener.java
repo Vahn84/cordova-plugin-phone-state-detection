@@ -33,9 +33,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
         switch (state) {
             case TelephonyManager.CALL_STATE_IDLE:
                 //when Idle i.e no call
-                phoneRinging = false;
-                callHooked = false;
-                sendCustomBroadcast(phoneRinging, callHooked, context);
+
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 //when Off hook i.e in call
