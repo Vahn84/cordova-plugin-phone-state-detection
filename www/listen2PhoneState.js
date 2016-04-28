@@ -7,13 +7,13 @@
 
 var phone_state =
         {
-            listen2PhoneState: function (phoneStateSuccessCallback, phoneStateErrorCallback)
+            listen2PhoneState: function (phoneStateSuccessCallback, phoneStateErrorCallback, action)
             {
                 cordova.exec(
                         phoneStateSuccessCallback,
                         phoneStateErrorCallback,
                         'PhoneStateDetectionPlugin',
-                        'checkPhoneState',
+                        action,
                         []
                             );
             }
