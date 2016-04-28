@@ -29,7 +29,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
- 
+
         Log.d("action", action);
         this.context = this.cordova.getActivity().getApplicationContext();
         this.cbContext = callbackContext;
