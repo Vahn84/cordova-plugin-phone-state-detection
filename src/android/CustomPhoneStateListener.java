@@ -1,7 +1,3 @@
-/**
- * Created by vahn on 27/04/16.
- */
-
 package com.vahn.cordova.phonestatedetection;
 
 import android.content.Context;
@@ -12,9 +8,14 @@ import android.telephony.TelephonyManager;
 import android.content.Intent;
 import com.vahn.cordova.phonestatedetection.Constant;
 
+/**
+ * Created by vahn on 27/04/16.
+ */
+
 public class CustomPhoneStateListener extends PhoneStateListener {
 
-
+    public boolean callHooked = false;
+    public boolean phoneRinging = false;
 
     SharedPreferences prefs;
     //private static final String TAG = "PhoneStateChanged";
@@ -32,13 +33,14 @@ public class CustomPhoneStateListener extends PhoneStateListener {
         switch (state) {
             case TelephonyManager.CALL_STATE_IDLE:
                 //when Idle i.e no call
-
+                phoneRinging = true;
+                sendCustomBroadcast(phoneRinging, callHooked, context);
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 //when Off hook i.e in call
-                //Make intent and start your service here
-
-                prefs.edit().putBoolean(Constant.CALL_HOOKED,true).commit();
+                phoneRinging = true;
+                callHooked = true;
+                sendCustomBroadcast(phoneRinging, callHooked, context);
                 break;
             case TelephonyManager.CALL_STATE_RINGING:
                 //when Ringing
@@ -48,5 +50,15 @@ public class CustomPhoneStateListener extends PhoneStateListener {
             default:
                 break;
         }
+    }
+
+    public void sendCustomBroadcast(boolean phoneRinging, boolean callHooked, Context context){
+
+        Intent intent = new Intent();
+        intent.setAction(Constant.BROADCAST_PHONE_STATE_INTENT_ACTION);
+        intent.putExtra(Constant.IS_PHONE_RINGING, phoneRinging);
+        intent.putExtra(Constant.CALL_HOOKED, callHooked);
+        context.sendBroadcast(intent);
+
     }
 }
