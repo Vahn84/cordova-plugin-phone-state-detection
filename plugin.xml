@@ -29,13 +29,7 @@
                     </intent-filter>
                 </receiver>
         </config-file>
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-                <receiver android:name="com.vahn.cordova.phonestatedetection.PhoneStateDetectionPlugin" >
-                    <intent-filter>
-                        <action android:name="com.vahn.cordova.phonestatedetection.BROADCAST_PHONE_STATE_EVENT" />
-                    </intent-filter>
-                </receiver>
-        </config-file>
+
         
         <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.READ_PHONE_STATE" />
