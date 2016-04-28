@@ -33,7 +33,8 @@ public class CustomPhoneStateListener extends PhoneStateListener {
         switch (state) {
             case TelephonyManager.CALL_STATE_IDLE:
                 //when Idle i.e no call
-                phoneRinging = true;
+                phoneRinging = false;
+                callHooked = false;
                 sendCustomBroadcast(phoneRinging, callHooked, context);
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
@@ -44,8 +45,9 @@ public class CustomPhoneStateListener extends PhoneStateListener {
                 break;
             case TelephonyManager.CALL_STATE_RINGING:
                 //when Ringing
-                
-                prefs.edit().putBoolean(Constant.IS_PHONE_RINGING,true).commit();
+                phoneRinging = true;
+                callHooked = false;
+                sendCustomBroadcast(phoneRinging, callHooked, context);
                 break;
             default:
                 break;
