@@ -14,6 +14,7 @@ import android.util.Log;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.widget.Toast;
+
 import com.vahn.cordova.phonestatedetection.Constant;
 
 /**
@@ -36,17 +37,22 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
         // Route the Action
         if (action.equals(Constant.ACTION_CHECK_PHONE_STATE)) {
             IntentFilter intentFilter = new IntentFilter(Constant.BROADCAST_PHONE_STATE_INTENT_ACTION);
+
             this.context.registerReceiver(mMessageReceiver, intentFilter);
             return true;
-        }
+        } else if (action.equals(Constant.ACTION_DESTROY)) {
+            try {
 
-        else if(action.equals(Constant.ACTION_DESTROY)) {
-            this.context.unregisterReceiver(mMessageReceiver);
+                this.context.unregisterReceiver(mMessageReceiver);
+
+            } catch (Exception e) {
+
+            }
+
             return true;
-        }
 
-        else {
-             // Action not found
+        } else {
+            // Action not found
             cbContext.error("action not recognised");
             return false;
         }
@@ -60,7 +66,8 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
 
         boolean isInPhoneCall;
         boolean isPhoneRinging;
-        JSONObject parameter = new JSONObject();;
+        JSONObject parameter = new JSONObject();
+        ;
 
 
         try {
