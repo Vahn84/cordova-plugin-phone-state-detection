@@ -48,6 +48,7 @@
         <source-file src="src/android/PhoneStateDetectionPlugin.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         <source-file src="src/android/CustomPhoneStateListener.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         <source-file src="src/android/PhoneStateBroadcastReceiver.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
+        <source-file src="src/android/Constant.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         
      </platform>          
 </plugin>
