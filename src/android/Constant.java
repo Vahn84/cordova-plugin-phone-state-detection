@@ -2,7 +2,7 @@ package com.vahn.cordova.phonestatedetection;
 
 public class Constant
 {
-    public static final String ACTION_CHECK_PHONE_STATE = "checkPhoneState";
+    public static final String ACTION_CHECK_PHONE_STATE = "listenPhoneState";
     public static final String ACTION_DESTROY = "stopListenPhoneState";
     public static final String PSD = "PhoneStatePrefs";
     public static final String IS_PHONE_RINGING = "isPhoneRinging";

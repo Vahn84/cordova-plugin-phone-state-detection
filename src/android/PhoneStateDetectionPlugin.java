@@ -65,8 +65,8 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
 
         try {
 
-            parameter.put("isPhoneRinging", phoneRinging);
-            parameter.put("isInPhoneCall", callHooked);
+            parameter.put(Constant.IS_PHONE_RINGING, phoneRinging);
+            parameter.put(Constant.CALL_HOOKED, callHooked);
 
         } catch (JSONException e) {
 
