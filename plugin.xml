@@ -44,5 +44,15 @@
         <source-file src="src/android/PhoneStateBroadcastReceiver.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         <source-file src="src/android/Constant.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         
-     </platform>          
+     </platform>
+     <platform name="ios">        
+        <config-file target="config.xml" parent="/*">
+            <feature name="PhoneStateDetectionPlugin">
+                <param name="ios-package" value="PhoneStateDetectionPlugin"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/PhoneStateDetectionPlugin.h" />
+        <source-file src="src/ios/PhoneStateDetectionPlugin.m" />
+     </platform>
 </plugin>
