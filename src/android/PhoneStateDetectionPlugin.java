@@ -42,7 +42,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
             return true;
         } else if (action.equals(Constant.ACTION_DESTROY)) {
             try {
- 
+
                 this.context.unregisterReceiver(mMessageReceiver);
 
             } catch (Exception e) {
