@@ -2,7 +2,7 @@
 //  PhoneStateDetectionPlugin.m
 //  Smartphoners
 //
-//  Created by Fabio Cingolani on 29/04/16.
+//  Created by vahn on 29/04/16.
 //
 //
 
@@ -14,35 +14,63 @@
 
 @implementation PhoneStateDetectionPlugin : CDVPlugin
 
-    - (void) listen2PhoneSate:(CDVInvokedUrlCommand *) command {
-        CTCallCenter *callCenter = [[CTCallCenter alloc] init];
-        callCenter.callEventHandler=^(CTCall* call)
+- (void) listenPhoneState:(CDVInvokedUrlCommand *) command {
+    
+    self.callCenter = [[CTCallCenter alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callReceived:) name:CTCallStateIncoming object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callEnded:) name:CTCallStateDisconnected object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callConnected:) name:CTCallStateConnected object:nil];
+    
+    self.isInPhoneCall = false;
+    self.isPhoneRinging = false;
+
+    self.callCenter.callEventHandler = ^(CTCall *call){
+        
+        if ([call.callState isEqualToString: CTCallStateConnected])
         {
+            NSLog(@"call CTCallStateConnected");//Background task stopped
+            self.isInPhoneCall = true;
+        }
+        else if ([call.callState isEqualToString: CTCallStateDialing])
+        {
+            NSLog(@"call CTCallStateDialing");
+        }
+        else if ([call.callState isEqualToString: CTCallStateIncoming])
+        {
+            NSLog(@"call CTCallStateIncoming");
             
-            if(call.callState == CTCallStateDialing)
-            {
-                //The call state, before connection is established, when the user initiates the call.
-                NSLog(@"Call is dailing");
-            }
-            if(call.callState == CTCallStateIncoming)
-            {
-                //The call state, before connection is established, when a call is incoming but not yet answered by the user.
-                NSLog(@"Call is Coming");
-            }
+            self.isPhoneRinging = true;
+
+        }
+        else if ([call.callState isEqualToString: CTCallStateDisconnected])
+        {
+            NSLog(@"call CTCallStateDisconnected");//Background task started
             
-            if(call.callState == CTCallStateConnected)
-            {
-                //The call state when the call is fully established for all parties involved.
-                NSLog(@"Call Connected");
-            }   
+            NSMutableDictionary *jsonObj = [ [NSMutableDictionary alloc]
+                                            initWithObjectsAndKeys :
+                                            [NSNumber numberWithBool:_isPhoneRinging], @"isPhoneRinging",
+                                            [NSNumber numberWithBool:_isInPhoneCall], @"isInPhoneCall",
+                                            nil
+                                            ];
             
-            if(call.callState == CTCallStateDisconnected)
-            {
-                //The call state Ended.
-                NSLog(@"Call Ended");
-            }
+            CDVPluginResult *pluginResult = [ CDVPluginResult
+                                             resultWithStatus    : CDVCommandStatus_OK
+                                             messageAsDictionary : jsonObj
+                                             ];
             
-        };
-    }
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+
+        }
+        else
+        {
+            NSLog(@"call NO");
+        }
+    };
+
+    
+
+}
+
+
 
 @end

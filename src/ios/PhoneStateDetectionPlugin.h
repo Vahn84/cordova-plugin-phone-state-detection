@@ -7,9 +7,16 @@
 //
 
 #import <Cordova/CDV.h>
+#import <CoreTelephony/CTCallCenter.h>
+#import <CoreTelephony/CTCall.h>
 
 @interface PhoneStateDetectionPlugin : CDVPlugin
 
-- (void) listen2PhoneSate:(CDVInvokedUrlCommand *) command;
+@property (nonatomic, strong) CTCallCenter *callCenter;
+@property bool isInPhoneCall;
+@property bool isPhoneRinging;
+
+- (void) listenPhoneState:(CDVInvokedUrlCommand *) command;
+
 
 @end
