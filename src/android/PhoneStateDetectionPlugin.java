@@ -32,7 +32,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
 
         Log.d("action", action);
         this.context = this.cordova.getActivity().getApplicationContext();
-
+        this.cbContext = callbackContext;
 
         // Route the Action
         if (action.equals(Constant.ACTION_CHECK_PHONE_STATE)) {
