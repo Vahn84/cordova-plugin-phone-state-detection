@@ -18,7 +18,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
     private boolean phoneRinging = false;
     private boolean missedCall = false;
     private static boolean firstCallback = true;
-    Intent intent;
+    private static Intent intent = new Intent();
 
     SharedPreferences prefs;
     //private static final String TAG = "PhoneStateChanged";
@@ -27,7 +27,6 @@ public class CustomPhoneStateListener extends PhoneStateListener {
         super();
         this.context = context;
         this.prefs = this.context.getSharedPreferences(Constant.PSD, Context.MODE_PRIVATE);
-        this.intent = new Intent();
     }
 
     @Override
