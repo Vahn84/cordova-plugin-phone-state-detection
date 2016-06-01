@@ -40,19 +40,22 @@ public class CustomPhoneStateListener extends PhoneStateListener {
             	} else if(phoneRinging && callHooked){
             		missedCall = false;
             	}
-            	sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
+            	if(phoneRinging)
+            	{
+            		sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
+            	}
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 //when Off hook i.e in call
                 phoneRinging = true;
                 callHooked = true;
-                sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
+                //sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
                 break;
             case TelephonyManager.CALL_STATE_RINGING:
                 //when Ringing
                 phoneRinging = true;
                 callHooked = false;
-                sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
+                //sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
                 break;
             default:
                 break;
