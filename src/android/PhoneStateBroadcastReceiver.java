@@ -12,11 +12,18 @@ import com.vahn.cordova.phonestatedetection.CustomPhoneStateListener;
  */
 public class PhoneStateBroadcastReceiver extends BroadcastReceiver {
 
+	private CustomPhoneStateListener customPhoneStateListener;
+	private TelephonyManager telephonyManager;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        telephonyManager.listen(new CustomPhoneStateListener(context), PhoneStateListener.LISTEN_CALL_STATE);
+    	if(customPhoneStateListener==null){
+    		customPhoneStateListener = new CustomPhoneStateListener(context);
+    	}
+    	if(telephonyManager==null){
+         	telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+    	}
+        telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
     }
 

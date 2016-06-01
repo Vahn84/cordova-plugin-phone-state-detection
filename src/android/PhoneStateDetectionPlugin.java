@@ -60,20 +60,20 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
 
     }
 
-    private void sendPhoneState(CallbackContext callbackContext, Context context, boolean callHooked, boolean phoneRinging) {
+    private void sendPhoneState(CallbackContext callbackContext, Context context, boolean callHooked, boolean phoneRinging, boolean missedCalls) {
 
         Log.d("inside Check", "sendPhoneState");
 
         boolean isInPhoneCall;
         boolean isPhoneRinging;
+        boolean missedCalls;
         JSONObject parameter = new JSONObject();
-        ;
-
 
         try {
 
             parameter.put(Constant.IS_PHONE_RINGING, phoneRinging);
             parameter.put(Constant.CALL_HOOKED, callHooked);
+            parameter.put(Constant.IS_MISSED_CALL, missedCalls);
 
         } catch (JSONException e) {
 
@@ -92,7 +92,8 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
         public void onReceive(Context brContext, Intent intent) {
             boolean callHooked = intent.getBooleanExtra(Constant.CALL_HOOKED, false);
             boolean phoneRinging = intent.getBooleanExtra(Constant.IS_PHONE_RINGING, false);
-            sendPhoneState(cbContext, context, callHooked, phoneRinging);
+            boolean isMissedCall = intent.getBooleanExtra(Constant.IS_MISSED_CALL, false);
+            sendPhoneState(cbContext, context, callHooked, phoneRinging, isMissedCall);
         }
     };
 

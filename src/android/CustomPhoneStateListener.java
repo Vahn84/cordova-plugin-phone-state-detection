@@ -16,6 +16,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
 
     public boolean callHooked = false;
     public boolean phoneRinging = false;
+    public boolean missedCall = false;
 
     SharedPreferences prefs;
     //private static final String TAG = "PhoneStateChanged";
@@ -33,31 +34,38 @@ public class CustomPhoneStateListener extends PhoneStateListener {
         switch (state) {
             case TelephonyManager.CALL_STATE_IDLE:
                 //when Idle i.e no call
-
+            	if(phoneRinging && !callHooked)
+            	{
+            		missedCall = true;
+            	} else if(phoneRinging && callHooked){
+            		missedCall = false;
+            	}
+            	sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 //when Off hook i.e in call
                 phoneRinging = true;
                 callHooked = true;
-                sendCustomBroadcast(phoneRinging, callHooked, context);
+                sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
                 break;
             case TelephonyManager.CALL_STATE_RINGING:
                 //when Ringing
                 phoneRinging = true;
                 callHooked = false;
-                sendCustomBroadcast(phoneRinging, callHooked, context);
+                sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
                 break;
             default:
                 break;
         }
     }
 
-    public void sendCustomBroadcast(boolean phoneRinging, boolean callHooked, Context context){
+    public void sendCustomBroadcast(boolean phoneRinging, boolean callHooked, boolean missedCall, Context context){
 
         Intent intent = new Intent();
         intent.setAction(Constant.BROADCAST_PHONE_STATE_INTENT_ACTION);
         intent.putExtra(Constant.IS_PHONE_RINGING, phoneRinging);
         intent.putExtra(Constant.CALL_HOOKED, callHooked);
+        intent.putExtra(Constant.IS_MISSED_CALL, missedCall);
         context.sendBroadcast(intent);
 
     }
