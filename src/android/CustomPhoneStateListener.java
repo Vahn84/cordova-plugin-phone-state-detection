@@ -17,7 +17,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
     private boolean callHooked = false;
     private boolean phoneRinging = false;
     private boolean missedCall = false;
-    private static firstCallback = true;
+    private static boolean firstCallback = true;
     Intent intent;
 
     SharedPreferences prefs;
