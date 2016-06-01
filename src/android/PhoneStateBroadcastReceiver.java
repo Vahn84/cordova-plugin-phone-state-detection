@@ -22,8 +22,9 @@ public class PhoneStateBroadcastReceiver extends BroadcastReceiver {
     	}
     	if(telephonyManager==null){
          	telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+         	telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
     	}
-        telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+       
 
     }
 
