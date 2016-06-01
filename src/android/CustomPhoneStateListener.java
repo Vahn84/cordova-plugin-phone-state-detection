@@ -14,9 +14,11 @@ import com.vahn.cordova.phonestatedetection.Constant;
 
 public class CustomPhoneStateListener extends PhoneStateListener {
 
-    public boolean callHooked = false;
-    public boolean phoneRinging = false;
-    public boolean missedCall = false;
+    private boolean callHooked = false;
+    private boolean phoneRinging = false;
+    private boolean missedCall = false;
+    private static firstCallback = true;
+    Intent intent;
 
     SharedPreferences prefs;
     //private static final String TAG = "PhoneStateChanged";
@@ -25,6 +27,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
         super();
         this.context = context;
         this.prefs = this.context.getSharedPreferences(Constant.PSD, Context.MODE_PRIVATE);
+        this.intent = new Intent();
     }
 
     @Override
@@ -40,8 +43,9 @@ public class CustomPhoneStateListener extends PhoneStateListener {
             	} else if(phoneRinging && callHooked){
             		missedCall = false;
             	}
-            	if(phoneRinging)
-            	{
+            	if(firstCallback)
+            	{	
+            		firstCallback = false;
             		sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
             		phoneRinging = false;
             		missedCall = false;
@@ -56,23 +60,23 @@ public class CustomPhoneStateListener extends PhoneStateListener {
                 break;
             case TelephonyManager.CALL_STATE_RINGING:
                 //when Ringing
+            	firstCallback = true;
                 phoneRinging = true;
                 callHooked = false;
                 //sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
                 break;
-            default:
-                break;
         }
     }
 
-    public void sendCustomBroadcast(boolean phoneRinging, boolean callHooked, boolean missedCall, Context context){
+    private static boolean sendCustomBroadcast(boolean phoneRinging, boolean callHooked, boolean missedCall, Context context){
 
-        Intent intent = new Intent();
+        
         intent.setAction(Constant.BROADCAST_PHONE_STATE_INTENT_ACTION);
         intent.putExtra(Constant.IS_PHONE_RINGING, phoneRinging);
         intent.putExtra(Constant.CALL_HOOKED, callHooked);
         intent.putExtra(Constant.IS_MISSED_CALL, missedCall);
         context.sendBroadcast(intent);
 
+        return true;
     }
 }

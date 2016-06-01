@@ -26,6 +26,8 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
 
     Context context;
     CallbackContext cbContext;
+    PluginResult result;
+    IntentFilter intentFilter = new IntentFilter(Constant.BROADCAST_PHONE_STATE_INTENT_ACTION);
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -36,8 +38,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
 
         // Route the Action
         if (action.equals(Constant.ACTION_CHECK_PHONE_STATE)) {
-            IntentFilter intentFilter = new IntentFilter(Constant.BROADCAST_PHONE_STATE_INTENT_ACTION);
-
+             
             this.context.registerReceiver(mMessageReceiver, intentFilter);
             return true;
         } else if (action.equals(Constant.ACTION_DESTROY)) {
@@ -79,7 +80,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
 
         }
 
-        PluginResult result = new PluginResult(PluginResult.Status.OK, parameter);
+        result = new PluginResult(PluginResult.Status.OK, parameter);
         result.setKeepCallback(true);
         callbackContext.sendPluginResult(result);
 
