@@ -15,8 +15,11 @@
 @property (nonatomic, strong) CTCallCenter *callCenter;
 @property bool isInPhoneCall;
 @property bool isPhoneRinging;
+@property bool isMissedCall;
+@property bool isHeadsetOn;
 
 - (void) listenPhoneState:(CDVInvokedUrlCommand *) command;
 - (void) stopListenPhoneState:(CDVInvokedUrlCommand *) command;
+- (bool) isHeadsetPluggedIn;
 
 @end
