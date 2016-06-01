@@ -64,9 +64,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
 
         Log.d("inside Check", "sendPhoneState");
 
-        boolean isInPhoneCall;
-        boolean isPhoneRinging;
-        boolean missedCalls;
+
         JSONObject parameter = new JSONObject();
 
         try {
