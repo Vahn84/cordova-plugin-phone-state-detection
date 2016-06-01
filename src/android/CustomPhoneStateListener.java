@@ -43,6 +43,9 @@ public class CustomPhoneStateListener extends PhoneStateListener {
             	if(phoneRinging)
             	{
             		sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
+            		phoneRinging = false;
+            		missedCall = false;
+            		callHooked = false;
             	}
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
