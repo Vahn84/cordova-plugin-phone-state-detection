@@ -50,7 +50,7 @@
             self.isInPhoneCall = true;
             self.isMissedCall = false;
             self.isHeadsetOn = [self isHeadsetPluggedIn];
-            NSLog(@"Call Connected");
+
         }
         
         if(call.callState == CTCallStateDisconnected)
@@ -98,35 +98,35 @@
     }
     
     for (AVAudioSessionPortDescription* desc in [route outputs]) {
-        NSLog(@"port ",[[desc portType]);
-                        if ([[desc portType] isEqualToString:AVAudioSessionPortHeadphones])
-                        return true;
-                        }
-                        return false;
-                        }
-                        
-                        - (bool) prepareAudioSession {
-                            
-                            // deactivate session
-                            bool success = [[AVAudioSession sharedInstance] setActive:NO error: nil];
-                            if (!success) {
-                                NSLog(@"deactivationError");
-                            }
-                            
-                            // set audio session category AVAudioSessionCategoryPlayAndRecord options AVAudioSessionCategoryOptionAllowBluetooth
-                            success = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionAllowBluetooth error:nil];
-                            if (!success) {
-                                NSLog(@"setCategoryError");
-                            }
-                            
-                            // activate audio session
-                            success = [[AVAudioSession sharedInstance] setActive:YES error: nil];
-                            if (!success) {
-                                NSLog(@"activationError");
-                            }
-                            
-                            return success;
-                        }
-                        
-                        
-                        @end
+        
+        if ([[desc portType] isEqualToString:AVAudioSessionPortHeadphones])
+        return true;
+    }
+    return false;
+}
+
+- (bool) prepareAudioSession {
+    
+    // deactivate session
+    bool success = [[AVAudioSession sharedInstance] setActive:NO error: nil];
+    if (!success) {
+        NSLog(@"deactivationError");
+    }
+    
+    // set audio session category AVAudioSessionCategoryPlayAndRecord options AVAudioSessionCategoryOptionAllowBluetooth
+    success = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionAllowBluetooth error:nil];
+    if (!success) {
+        NSLog(@"setCategoryError");
+    }
+    
+    // activate audio session
+    success = [[AVAudioSession sharedInstance] setActive:YES error: nil];
+    if (!success) {
+        NSLog(@"activationError");
+    }
+    
+    return success;
+}
+
+
+@end
