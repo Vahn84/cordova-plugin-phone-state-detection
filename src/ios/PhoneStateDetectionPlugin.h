@@ -21,5 +21,6 @@
 - (void) listenPhoneState:(CDVInvokedUrlCommand *) command;
 - (void) stopListenPhoneState:(CDVInvokedUrlCommand *) command;
 - (bool) isHeadsetPluggedIn;
+- (bool) prepareAudioSession;
 
 @end
