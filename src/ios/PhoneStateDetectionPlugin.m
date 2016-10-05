@@ -41,6 +41,10 @@
         {
             //The call state, before connection is established, when a call is incoming but not yet answered by the user.
             NSLog(@"Call is Coming");
+            self.isInPhoneCall = false;
+            self.isMissedCall = true;
+            self.isHeadsetOn = false;
+            self.isCallEnded = false;
             self.isPhoneRinging = true;
             
             NSMutableDictionary *jsonObj = [ [NSMutableDictionary alloc]
@@ -67,6 +71,7 @@
             self.isPhoneRinging = true;
             self.isInPhoneCall = true;
             self.isMissedCall = false;
+            self.isCallEnded = false;
             self.isHeadsetOn = [self isHeadsetPluggedIn];
             
             NSMutableDictionary *jsonObj = [ [NSMutableDictionary alloc]
