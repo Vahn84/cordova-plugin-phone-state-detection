@@ -20,10 +20,11 @@ public class CustomPhoneStateListener extends PhoneStateListener {
     private boolean phoneRinging = false;
     private boolean missedCall = false;
     private boolean headsetOn = false;
+    private boolean isCallEnded = false;
     private static boolean firstCallback = true;
     private static Intent intent = new Intent();
     private static AudioManager audioManager;
-    BluetoothHeadset bluetoothHeadset;
+
 
     SharedPreferences prefs;
     //private static final String TAG = "PhoneStateChanged";
@@ -43,22 +44,24 @@ public class CustomPhoneStateListener extends PhoneStateListener {
             case TelephonyManager.CALL_STATE_IDLE:
                 //when Idle i.e no call
             	if(phoneRinging && !callHooked)
-            	{
+                {   isCallEnded = true;
             		missedCall = true;
             	} else if(phoneRinging && callHooked){
             		missedCall = false;
                     headsetOn = checkHeadsetConnection(audioManager);
+                    isCallEnded = true;
             	}
                 
 
             	if(firstCallback)
             	{	
             		firstCallback = false;
-            		sendCustomBroadcast(phoneRinging, callHooked, missedCall, headsetOn, context);
+            		sendCustomBroadcast(phoneRinging, callHooked, missedCall, isCallEnded, headsetOn, context);
             		phoneRinging = false;
             		missedCall = false;
             		callHooked = false;
                     headsetOn = false;
+                    isCallEnded = false;
             	}
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
@@ -66,14 +69,14 @@ public class CustomPhoneStateListener extends PhoneStateListener {
                 phoneRinging = true;
                 callHooked = true;
                 headsetOn = checkHeadsetConnection(audioManager);
-                //sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
+                sendCustomBroadcast(phoneRinging, callHooked, isCallEnded, missedCall, context);
                 break;
             case TelephonyManager.CALL_STATE_RINGING:
                 //when Ringing
             	firstCallback = true;
                 phoneRinging = true;
                 callHooked = false;
-                //sendCustomBroadcast(phoneRinging, callHooked, missedCall, context);
+                sendCustomBroadcast(phoneRinging, callHooked, isCallEnded, missedCall, context);
                 break;
         }
     }
@@ -92,6 +95,6 @@ public class CustomPhoneStateListener extends PhoneStateListener {
     }
 
     private static boolean checkHeadsetConnection(AudioManager audioManager) {
-        return (audioManager.isBluetoothScoOn() || audioManager.isWiredHeadsetOn()) ? true : false;
+        return (audioManager.isBluetoothScoOn() || audioManager.isWiredHeadsetOn() || audioManager.isBluetoothA2dpOn()) ? true : false;
     }
 }

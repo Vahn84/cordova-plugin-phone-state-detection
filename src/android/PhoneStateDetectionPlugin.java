@@ -61,7 +61,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
 
     }
 
-    private void sendPhoneState(CallbackContext callbackContext, Context context, boolean callHooked, boolean phoneRinging, boolean missedCalls, boolean isHeadsetOn) {
+    private void sendPhoneState(CallbackContext callbackContext, Context context, boolean callHooked, boolean phoneRinging, boolean missedCalls, boolean isCallEnded, boolean isHeadsetOn) {
 
         Log.d("inside Check", "sendPhoneState");
 
@@ -74,6 +74,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
             parameter.put(Constant.CALL_HOOKED, callHooked);
             parameter.put(Constant.IS_MISSED_CALL, missedCalls);
             parameter.put(Constant.IS_HEADSET_ON, isHeadsetOn);
+            parameter.put(Constant.IS_CALL_ENDED, isCallEnded);
 
         } catch (JSONException e) {
 
@@ -94,7 +95,8 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
             boolean phoneRinging = intent.getBooleanExtra(Constant.IS_PHONE_RINGING, false);
             boolean isMissedCall = intent.getBooleanExtra(Constant.IS_MISSED_CALL, false);
             boolean isHeadsetOn = intent.getBooleanExtra(Constant.IS_HEADSET_ON, false);
-            sendPhoneState(cbContext, context, callHooked, phoneRinging, isMissedCall, isHeadsetOn);
+            boolean isCallEnded = intent.getBooleanExtra(Constant.IS_CALL_ENDED, false);
+            sendPhoneState(cbContext, context, callHooked, phoneRinging, isMissedCall, isCallEnded, isHeadsetOn);
         }
     };
 
