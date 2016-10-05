@@ -17,6 +17,7 @@
 @property bool isPhoneRinging;
 @property bool isMissedCall;
 @property bool isHeadsetOn;
+@property bool isCallEnded;
 
 - (void) listenPhoneState:(CDVInvokedUrlCommand *) command;
 - (void) stopListenPhoneState:(CDVInvokedUrlCommand *) command;

@@ -14,7 +14,7 @@
 
 
 @implementation PhoneStateDetectionPlugin : CDVPlugin
-
+    
 - (void) listenPhoneState:(CDVInvokedUrlCommand *) command {
     self.callCenter = [[CTCallCenter alloc] init];
     
@@ -28,6 +28,7 @@
     self.isPhoneRinging = false;
     self.isMissedCall = true;
     self.isHeadsetOn = false;
+    self.isCallEnded = false;
     self.callCenter.callEventHandler=^(CTCall* call)
     {
         
@@ -41,16 +42,48 @@
             //The call state, before connection is established, when a call is incoming but not yet answered by the user.
             NSLog(@"Call is Coming");
             self.isPhoneRinging = true;
+            
+            NSMutableDictionary *jsonObj = [ [NSMutableDictionary alloc]
+                                            initWithObjectsAndKeys :
+                                            [NSNumber numberWithBool:_isPhoneRinging], @"isPhoneRinging",
+                                            [NSNumber numberWithBool:_isInPhoneCall], @"isInPhoneCall",
+                                            [NSNumber numberWithBool:_isMissedCall], @"isMissedCall",
+                                            [NSNumber numberWithBool:_isHeadsetOn], @"isHeadsetOn",
+                                            [NSNumber numberWithBool:_isCallEnded], @"isCallEnded",
+                                            nil
+                                            ];
+            CDVPluginResult *pluginResult = [ CDVPluginResult
+                                             resultWithStatus    : CDVCommandStatus_OK
+                                             messageAsDictionary : jsonObj
+                                             ];
+            [pluginResult setKeepCallbackAsBool:YES];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId]
         }
         
         if(call.callState == CTCallStateConnected)
         {
             //The call state when the call is fully established for all parties involved.
             NSLog(@"Call Connected");
+            self.isPhoneRinging = true;
             self.isInPhoneCall = true;
             self.isMissedCall = false;
             self.isHeadsetOn = [self isHeadsetPluggedIn];
-
+            
+            NSMutableDictionary *jsonObj = [ [NSMutableDictionary alloc]
+                                            initWithObjectsAndKeys :
+                                            [NSNumber numberWithBool:_isPhoneRinging], @"isPhoneRinging",
+                                            [NSNumber numberWithBool:_isInPhoneCall], @"isInPhoneCall",
+                                            [NSNumber numberWithBool:_isMissedCall], @"isMissedCall",
+                                            [NSNumber numberWithBool:_isHeadsetOn], @"isHeadsetOn",
+                                            [NSNumber numberWithBool:_isCallEnded], @"isCallEnded",
+                                            nil
+                                            ];
+            CDVPluginResult *pluginResult = [ CDVPluginResult
+                                             resultWithStatus    : CDVCommandStatus_OK
+                                             messageAsDictionary : jsonObj
+                                             ];
+            [pluginResult setKeepCallbackAsBool:YES];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }
         
         if(call.callState == CTCallStateDisconnected)
@@ -59,6 +92,7 @@
             {
                 self.isHeadsetOn = [self isHeadsetPluggedIn];
             }
+            self.isCallEnded = true;
             
             //The call state Ended.
             NSLog(@"Call Ended");
@@ -68,6 +102,7 @@
                                             [NSNumber numberWithBool:_isInPhoneCall], @"isInPhoneCall",
                                             [NSNumber numberWithBool:_isMissedCall], @"isMissedCall",
                                             [NSNumber numberWithBool:_isHeadsetOn], @"isHeadsetOn",
+                                            [NSNumber numberWithBool:_isCallEnded], @"isCallEnded",
                                             nil
                                             ];
             CDVPluginResult *pluginResult = [ CDVPluginResult
@@ -80,11 +115,11 @@
         
     };
 }
-
+    
 - (void) stopListenPhoneState:(CDVInvokedUrlCommand *) command {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
+    
 - (bool)isHeadsetPluggedIn {
     AVAudioSessionRouteDescription* route = [[AVAudioSession sharedInstance] currentRoute];
     
@@ -104,7 +139,7 @@
     }
     return false;
 }
-
+    
 - (bool) prepareAudioSession {
     
     // deactivate session
@@ -127,6 +162,6 @@
     
     return success;
 }
-
-
-@end
+    
+    
+    @end

@@ -8,6 +8,8 @@ import android.media.AudioManager;
 import android.content.Intent;
 import com.vahn.cordova.phonestatedetection.Constant;
 
+
+
 /**
  * Created by vahn on 27/04/16.
  */
@@ -21,6 +23,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
     private static boolean firstCallback = true;
     private static Intent intent = new Intent();
     private static AudioManager audioManager;
+    BluetoothHeadset bluetoothHeadset;
 
     SharedPreferences prefs;
     //private static final String TAG = "PhoneStateChanged";
