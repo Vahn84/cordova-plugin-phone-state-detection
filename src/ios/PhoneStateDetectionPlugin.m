@@ -57,7 +57,7 @@
                                              messageAsDictionary : jsonObj
                                              ];
             [pluginResult setKeepCallbackAsBool:YES];
-            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId]
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }
         
         if(call.callState == CTCallStateConnected)
@@ -83,7 +83,7 @@
                                              messageAsDictionary : jsonObj
                                              ];
             [pluginResult setKeepCallbackAsBool:YES];
-            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];;
         }
         
         if(call.callState == CTCallStateDisconnected)
