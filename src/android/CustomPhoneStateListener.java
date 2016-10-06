@@ -81,7 +81,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
         }
     }
 
-    private static boolean sendCustomBroadcast(boolean phoneRinging, boolean callHooked, boolean missedCall, boolean headsetOn, Context context){
+    private static boolean sendCustomBroadcast(boolean phoneRinging, boolean callHooked, boolean missedCall, boolean isCallEnded, boolean headsetOn, Context context){
 
         
         intent.setAction(Constant.BROADCAST_PHONE_STATE_INTENT_ACTION);
@@ -89,6 +89,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
         intent.putExtra(Constant.CALL_HOOKED, callHooked);
         intent.putExtra(Constant.IS_MISSED_CALL, missedCall);
         intent.putExtra(Constant.IS_HEADSET_ON, headsetOn);
+        intent.putExtra(Constant.IS_CALL_ENDED, isCallEnded);
         context.sendBroadcast(intent);
 
         return true;
