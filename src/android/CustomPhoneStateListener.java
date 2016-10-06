@@ -69,14 +69,14 @@ public class CustomPhoneStateListener extends PhoneStateListener {
                 phoneRinging = true;
                 callHooked = true;
                 headsetOn = checkHeadsetConnection(audioManager);
-                sendCustomBroadcast(phoneRinging, callHooked, isCallEnded, missedCall, context);
+                sendCustomBroadcast(phoneRinging, callHooked, isCallEnded, missedCall,headsetOn, context);
                 break;
             case TelephonyManager.CALL_STATE_RINGING:
                 //when Ringing
             	firstCallback = true;
                 phoneRinging = true;
                 callHooked = false;
-                sendCustomBroadcast(phoneRinging, callHooked, isCallEnded, missedCall, context);
+                sendCustomBroadcast(phoneRinging, callHooked, isCallEnded, missedCall,headsetOn, context);
                 break;
         }
     }
