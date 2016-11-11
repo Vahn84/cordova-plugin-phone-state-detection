@@ -46,9 +46,6 @@
         <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.CALL_PHONE" />
         </config-file>        
-        <config-file target="AndroidManifest.xml" parent="/*">
-            <uses-permission android:name="android.permission.PROCESS_INCOMING_CALLS" />
-        </config-file>
 
         
         <source-file src="src/android/PhoneStateDetectionPlugin.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
