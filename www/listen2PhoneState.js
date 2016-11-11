@@ -7,14 +7,14 @@
 
 var phone_state =
         {
-            listen2PhoneState: function (phoneStateSuccessCallback, phoneStateErrorCallback, action)
+            listen2PhoneState: function (phoneStateSuccessCallback, phoneStateErrorCallback, action, phoneStateArgs)
             {
                 cordova.exec(
                         phoneStateSuccessCallback,
                         phoneStateErrorCallback,
                         'PhoneStateDetectionPlugin',
                         action,
-                        []
+                        [phoneStateArgs.rejectPhoneCall, phoneStateArgs,autoReplyBySMS, phoneStateArgs.autoReplyToSMSBySMS]
                             );
             }
         };
