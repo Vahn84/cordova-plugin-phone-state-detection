@@ -14,7 +14,7 @@ var phone_state =
                         phoneStateErrorCallback,
                         'PhoneStateDetectionPlugin',
                         action,
-                        [phoneStateArgs.rejectPhoneCall, phoneStateArgs,autoReplyBySMS, phoneStateArgs.autoReplyToSMSBySMS]
+                        [phoneStateArgs.rejectPhoneCall, phoneStateArgs.autoReplyBySMS, phoneStateArgs.autoReplyToSMSBySMS]
                             );
             }
         };
