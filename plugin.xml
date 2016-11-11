@@ -20,15 +20,12 @@
             <feature name="PhoneStateDetectionPlugin">
                 <param name="android-package" value="com.vahn.cordova.phonestatedetection.PhoneStateDetectionPlugin"/>
             </feature>
-        </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-                <receiver android:name="com.vahn.cordova.phonestatedetection.PhoneStateBroadcastReceiver" >
-                    <intent-filter>
-                        <action android:name="android.intent.action.PHONE_STATE" />
-                    </intent-filter>
-                </receiver>
         </config-file>
+   <feature name="ITelephony" >
+                <param name="android-package" value="com.android.internal.telephony"/>
+            </feature>
+        
 
         
         <config-file target="AndroidManifest.xml" parent="/*">
@@ -37,11 +34,26 @@
         <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
         </config-file>
-        
+        <config-file target="AndroidManifest.xml" parent="/*">
+           <uses-permission android:name="android.permission.RECEIVE_SMS" />
+        </config-file>       
+        <config-file target="AndroidManifest.xml" parent="/*">
+           <uses-permission android:name="android.permission.SEND_SMS" />
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
+        </config-file>       
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.CALL_PHONE" />
+        </config-file>        
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.PROCESS_INCOMING_CALLS" />
+        </config-file>
 
+        
         <source-file src="src/android/PhoneStateDetectionPlugin.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         <source-file src="src/android/CustomPhoneStateListener.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
-        <source-file src="src/android/PhoneStateBroadcastReceiver.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
+        <source-file src="src/android/Constant.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         <source-file src="src/android/Constant.java" target-dir="src/com/vahn/cordova/phonestatedetection/" />
         
      </platform>

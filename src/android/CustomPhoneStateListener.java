@@ -1,13 +1,16 @@
 package com.vahn.cordova.phonestatedetection;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
-import android.media.AudioManager;
 import android.content.Intent;
-import com.vahn.cordova.phonestatedetection.Constant;
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.telephony.PhoneStateListener;
+import android.telephony.SmsManager;
+import android.telephony.TelephonyManager;
 
+import com.android.internal.telephony.ITelephony;
+
+import java.lang.reflect.Method;
 
 
 /**
@@ -24,16 +27,21 @@ public class CustomPhoneStateListener extends PhoneStateListener {
     private static boolean firstCallback = true;
     private static Intent intent = new Intent();
     private static AudioManager audioManager;
-
+    private boolean autoReplyBySMS;
+    private boolean rejectPhoneCall;
+    private SmsManager smsManager;
+    private ITelephony telephonyService;
 
     SharedPreferences prefs;
     //private static final String TAG = "PhoneStateChanged";
     Context context; //Context to make Toast if required
-    public CustomPhoneStateListener(Context context) {
+    public CustomPhoneStateListener(Context context, boolean rejectPhoneCall, boolean autoReplyBySMS) {
         super();
         this.context = context;
         this.prefs = this.context.getSharedPreferences(Constant.PSD, Context.MODE_PRIVATE);
         this.audioManager = (AudioManager) this.context.getSystemService(Context.AUDIO_SERVICE);
+        this.autoReplyBySMS = autoReplyBySMS;
+        this.rejectPhoneCall = rejectPhoneCall;
     }
 
     @Override
@@ -62,6 +70,10 @@ public class CustomPhoneStateListener extends PhoneStateListener {
             		callHooked = false;
                     headsetOn = false;
                     isCallEnded = false;
+
+                    if(autoReplyBySMS){
+                        rejectPhoneCall(incomingNumber);
+                    }
             	}
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
@@ -69,6 +81,11 @@ public class CustomPhoneStateListener extends PhoneStateListener {
                 phoneRinging = true;
                 callHooked = true;
                 headsetOn = checkHeadsetConnection(audioManager);
+
+                if(autoReplyBySMS){
+                    smsManager.sendTextMessage(incomingNumber, null, Constant.SMS_MESSAGE, null, null);
+                }
+
                 sendCustomBroadcast(phoneRinging, callHooked, isCallEnded, missedCall,headsetOn, context);
                 break;
             case TelephonyManager.CALL_STATE_RINGING:
@@ -97,5 +114,21 @@ public class CustomPhoneStateListener extends PhoneStateListener {
 
     private static boolean checkHeadsetConnection(AudioManager audioManager) {
         return (audioManager.isBluetoothScoOn() || audioManager.isWiredHeadsetOn() || audioManager.isBluetoothA2dpOn()) ? true : false;
+    }
+
+    private void rejectPhoneCall(String incomingNumber) {
+
+        TelephonyManager telephony = (TelephonyManager)
+                context.getSystemService(Context.TELEPHONY_SERVICE);
+        try {
+            Class c = Class.forName(telephony.getClass().getName());
+            Method m = c.getDeclaredMethod("getITelephony");
+            m.setAccessible(true);
+            telephonyService = (ITelephony) m.invoke(telephony);
+            //telephonyService.silenceRinger();
+            telephonyService.endCall();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
