@@ -75,11 +75,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
                 if(firstCallback)
                 {
                     firstCallback = false;
-                    if(rejectPhoneCall){
-                        
-                        sendRejectCall();
-                        
-                    }
+                    
                     sendCustomBroadcast(phoneRinging, callHooked, missedCall, isCallEnded, headsetOn, context);
                     phoneRinging = false;
                     missedCall = false;
@@ -106,6 +102,11 @@ public class CustomPhoneStateListener extends PhoneStateListener {
                 phoneRinging = true;
                 callHooked = false;
                 sendCustomBroadcast(phoneRinging, callHooked, isCallEnded, missedCall,headsetOn, context);
+                if(rejectPhoneCall){
+                    
+                    sendRejectCall();
+                    
+                }
                 break;
         }
     }
