@@ -13,6 +13,8 @@ import android.util.Log;
 
 import com.android.internal.telephony.ITelephony;
 
+import org.apache.cordova.LOG;
+
 import java.lang.reflect.Method;
 
 
@@ -61,7 +63,8 @@ public class CustomPhoneStateListener extends PhoneStateListener {
                 if(phoneRinging && !callHooked)
                 {   isCallEnded = true;
                     missedCall = true;
-                    if(autoReplyBySMS){
+                    LOG.d("should reply by sms to phone call", String.valueOf(this.autoReplyBySMS));
+                    if(this.autoReplyBySMS){
                         SmsManager smsManager = SmsManager.getDefault();
                         smsManager.sendTextMessage(incomingNumber, null, Constant.SMS_MESSAGE, null, null);
                     }
@@ -102,6 +105,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
                 phoneRinging = true;
                 callHooked = false;
                 sendCustomBroadcast(phoneRinging, callHooked, isCallEnded, missedCall,headsetOn, context);
+                LOG.d("should reject", String.valueOf(rejectPhoneCall));
                 if(rejectPhoneCall){
                     
                     sendRejectCall();
