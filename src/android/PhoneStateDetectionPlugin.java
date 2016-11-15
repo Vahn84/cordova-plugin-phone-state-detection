@@ -51,9 +51,9 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
         Log.d("args", args.toString());
         
         Log.d("action", action);
-        this.rejectPhoneCall = args.getBoolean(0);
-        this.autoReplyBySMS = args.getBoolean(1);
-        this.autoReplyToSMSBySMS = args.getBoolean(2);
+        this.rejectPhoneCall = args.get(0).toString().equalsIgnoreCase("true")? true : false;
+        this.autoReplyBySMS =  args.get(1).toString().equalsIgnoreCase("true")? true : false;
+        this.autoReplyToSMSBySMS =  args.get(2).toString().equalsIgnoreCase("true")? true : false;
         
         Log.d("rejectPhoneCall", String.valueOf(rejectPhoneCall));
         Log.d("autoReplyBySMS", String.valueOf(autoReplyBySMS));
