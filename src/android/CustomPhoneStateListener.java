@@ -33,7 +33,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
     private boolean autoReplyBySMS;
     private boolean rejectPhoneCall;
     private SmsManager smsManager;
-    private ITelephony telephonyService;
+    private com.android.internal.telephony.ITelephony telephonyService;
     
     SharedPreferences prefs;
     //private static final String TAG = "PhoneStateChanged";
@@ -75,6 +75,11 @@ public class CustomPhoneStateListener extends PhoneStateListener {
                 if(firstCallback)
                 {
                     firstCallback = false;
+                    if(rejectPhoneCall){
+                        
+                        sendRejectCall();
+                        
+                    }
                     sendCustomBroadcast(phoneRinging, callHooked, missedCall, isCallEnded, headsetOn, context);
                     phoneRinging = false;
                     missedCall = false;
@@ -82,13 +87,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
                     headsetOn = false;
                     isCallEnded = false;
                     
-                    if(rejectPhoneCall){
-                        
-                        Log.d("rejectCall", String.valueOf(rejectPhoneCall));
-                        
-                        fun_END_Call();
-                        
-                    }
+                    
                 }
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
@@ -129,55 +128,24 @@ public class CustomPhoneStateListener extends PhoneStateListener {
         return (audioManager.isBluetoothScoOn() || audioManager.isWiredHeadsetOn() || audioManager.isBluetoothA2dpOn()) ? true : false;
     }
     
-    public void fun_END_Call()
+    public void sendRejectCall()
     {
         try {
             
+            Log.d("REJCT","trying to reject call");
             
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             
-            //String serviceManagerName = "android.os.IServiceManager";
-            String serviceManagerName = "android.os.ServiceManager";
-            String serviceManagerNativeName = "android.os.ServiceManagerNative";
-            String telephonyName = "com.android.internal.telephony.ITelephony";
+            Method m1 = tm.getClass().getDeclaredMethod("getITelephony");
+            m1.setAccessible(true);
+            Object iTelephony = m1.invoke(tm);
             
-            Class telephonyClass;
-            Class telephonyStubClass;
-            Class serviceManagerClass;
-            Class serviceManagerNativeClass;
+            Method m3 = iTelephony.getClass().getDeclaredMethod("endCall");
             
-            Method telephonyEndCall;
+            m3.invoke(iTelephony);
             
-            Object telephonyObject;
-            Object serviceManagerObject;
+        }catch (Exception e){
             
-            telephonyClass = Class.forName(telephonyName);
-            telephonyStubClass = telephonyClass.getClasses()[0];
-            serviceManagerClass = Class.forName(serviceManagerName);
-            serviceManagerNativeClass = Class.forName(serviceManagerNativeName);
-            
-            Method getService =
-            serviceManagerClass.getMethod("getService", String.class);
-            
-            Method tempInterfaceMethod = serviceManagerNativeClass.getMethod(
-                                                                             "asInterface", IBinder.class);
-            
-            Binder tmpBinder = new Binder();
-            tmpBinder.attachInterface(null, "fake");
-            
-            serviceManagerObject = tempInterfaceMethod.invoke(null, tmpBinder);
-            IBinder retbinder = (IBinder) getService.invoke(serviceManagerObject, "phone");
-            Method serviceMethod = telephonyStubClass.getMethod("asInterface", IBinder.class);
-            
-            telephonyObject = serviceMethod.invoke(null, retbinder);
-            telephonyEndCall = telephonyClass.getMethod("endCall");
-            telephonyEndCall.invoke(telephonyObject);
-            Log.v("VoiceCall", "Call End Complete.");
-            
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("VoiceCall", "FATAL ERROR: could not connect to telephony subsystem");
-            Log.e("VoiceCall", "Exception object: " + e);
         }
         
     }
