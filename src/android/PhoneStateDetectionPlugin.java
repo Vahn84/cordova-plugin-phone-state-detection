@@ -52,6 +52,8 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
         Log.d("args", args.toString());
         
         Log.d("action", action);
+        
+        
         this.rejectPhoneCall = args.get(0).toString().equalsIgnoreCase("true")? true : false;
         this.autoReplyBySMS =  args.get(1).toString().equalsIgnoreCase("true")? true : false;
         this.autoReplyToSMSBySMS =  args.get(2).toString().equalsIgnoreCase("true")? true : false;
@@ -67,6 +69,7 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
         if (action.equals(Constant.ACTION_CHECK_PHONE_STATE)) {
             
             this.context.registerReceiver(mMessageReceiver, intentFilter);
+            customPhoneStateListener = new CustomPhoneStateListener(context , rejectPhoneCall, autoReplyBySMS);
             this.context.registerReceiver(phoneCallReceiver, phoneCallIntentFilter);
             
             if(autoReplyToSMSBySMS){
@@ -76,11 +79,12 @@ public class PhoneStateDetectionPlugin extends CordovaPlugin {
             return true;
         } else if (action.equals(Constant.ACTION_DESTROY)) {
             try {
-                
+                Log.d("destroy", action);
                 this.context.unregisterReceiver(mMessageReceiver);
-                this.context.unregisterReceiver(phoneCallReceiver);
+                telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_NONE);
                 customPhoneStateListener = null;
                 telephonyManager = null;
+                this.context.unregisterReceiver(phoneCallReceiver);
                 this.context.unregisterReceiver(SMSReceiver);
                 
             } catch (Exception e) {
@@ -169,7 +173,7 @@ Log.e("SmsReceiver", "Exception smsReceiver" + e);
 
 }
 }
-if(phoneNumber != "") {
+if(phoneNumber != "" && autoReplyToSMSBySMS) {
 smsManager.sendTextMessage(phoneNumber, null, Constant.SMS_MESSAGE, null, null);
 }
 }
@@ -180,14 +184,11 @@ public BroadcastReceiver phoneCallReceiver = new BroadcastReceiver() {
 
 @Override
 public void onReceive(Context context, Intent intent) {
-LOG.d("when receiving", String.valueOf(autoReplyBySMS));
-if(customPhoneStateListener==null){
-customPhoneStateListener = new CustomPhoneStateListener(context , rejectPhoneCall, autoReplyBySMS);
-}
-if(telephonyManager==null){
+Log.d("when receiving", String.valueOf(autoReplyBySMS));
+
 telephonyManager = (TelephonyManager) context .getSystemService(Context.TELEPHONY_SERVICE);
 telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-}
+
 }
 
 };

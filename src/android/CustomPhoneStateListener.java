@@ -24,22 +24,26 @@ import java.lang.reflect.Method;
 
 public class CustomPhoneStateListener extends PhoneStateListener {
     
-    private boolean callHooked = false;
-    private boolean phoneRinging = false;
-    private boolean missedCall = false;
-    private boolean headsetOn = false;
-    private boolean isCallEnded = false;
+    private static boolean callHooked = false;
+    private static boolean phoneRinging = false;
+    private static boolean missedCall = false;
+    private static boolean headsetOn = false;
+    private static boolean isCallEnded = false;
     private static boolean firstCallback = true;
     private static Intent intent = new Intent();
     private static AudioManager audioManager;
     private boolean autoReplyBySMS;
     private boolean rejectPhoneCall;
+    private static boolean isRejecting = false;
+    private static boolean messageSent = false;
     private SmsManager smsManager;
     private com.android.internal.telephony.ITelephony telephonyService;
     
     SharedPreferences prefs;
     //private static final String TAG = "PhoneStateChanged";
-    Context context; //Context to make Toast if required
+    static Context context; //Context to make Toast if required
+    
+    
     public CustomPhoneStateListener(Context context, boolean rejectPhoneCall, boolean autoReplyBySMS) {
         super();
         this.context = context;
@@ -59,59 +63,79 @@ public class CustomPhoneStateListener extends PhoneStateListener {
         
         switch (state) {
             case TelephonyManager.CALL_STATE_IDLE:
+                Log.d("CALL STATE", "IDLE");
+                
                 //when Idle i.e no call
                 if(phoneRinging && !callHooked)
-                {   isCallEnded = true;
+                {
+                    isCallEnded = true;
                     missedCall = true;
-                    LOG.d("should reply by sms to phone call", String.valueOf(this.autoReplyBySMS));
-                    if(this.autoReplyBySMS){
-                        SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendTextMessage(incomingNumber, null, Constant.SMS_MESSAGE, null, null);
-                    }
+                    
                 } else if(phoneRinging && callHooked){
                     missedCall = false;
                     headsetOn = checkHeadsetConnection(audioManager);
                     isCallEnded = true;
-                    
                 }
                 
-                if(firstCallback)
+                Log.d("first callback", String.valueOf(firstCallback));
+                
+                if(firstCallback == false)
                 {
-                    firstCallback = false;
-                    
                     sendCustomBroadcast(phoneRinging, callHooked, missedCall, isCallEnded, headsetOn, context);
                     phoneRinging = false;
                     missedCall = false;
                     callHooked = false;
                     headsetOn = false;
                     isCallEnded = false;
-                    
+                    isRejecting = false;
+                    messageSent = false;
+                    firstCallback = true;
                     
                 }
+                
                 break;
+                
             case TelephonyManager.CALL_STATE_OFFHOOK:
+                Log.d("CALL STATE", "OFFHOOK");
                 //when Off hook i.e in call
-                phoneRinging = true;
-                callHooked = true;
-                headsetOn = checkHeadsetConnection(audioManager);
                 
-                
-                
-                sendCustomBroadcast(phoneRinging, callHooked, isCallEnded, missedCall,headsetOn, context);
-                break;
-            case TelephonyManager.CALL_STATE_RINGING:
-                //when Ringing
-                firstCallback = true;
-                phoneRinging = true;
-                callHooked = false;
-                sendCustomBroadcast(phoneRinging, callHooked, isCallEnded, missedCall,headsetOn, context);
-                LOG.d("should reject", String.valueOf(rejectPhoneCall));
-                if(rejectPhoneCall){
-                    
-                    sendRejectCall();
-                    
+                if(!callHooked) {
+                    callHooked = true;
+                    headsetOn = checkHeadsetConnection(audioManager);
+                    sendCustomBroadcast(phoneRinging, callHooked, missedCall, isCallEnded, headsetOn, context);
                 }
+                
                 break;
+                
+            case TelephonyManager.CALL_STATE_RINGING:
+                Log.d("CALL STATE RINGING", String.valueOf(phoneRinging));
+                //when Ringing
+                
+                callHooked = false;
+                if(!phoneRinging) {
+                    firstCallback = false;
+                    phoneRinging = true;
+                    sendCustomBroadcast(phoneRinging, callHooked, missedCall, isCallEnded, headsetOn, context);
+                    Log.d("inside ringing", String.valueOf(rejectPhoneCall));
+                    if(rejectPhoneCall && !isRejecting){
+                        
+                        isRejecting = true;
+                        sendRejectCall();
+                        
+                        Log.d("should reply", String.valueOf(autoReplyBySMS));
+                        Log.d("messageSent", String.valueOf(messageSent));
+                        
+                        if(autoReplyBySMS && !messageSent){
+                            messageSent = true;
+                            sendReplyBySMS(incomingNumber);
+                        }
+                        Log.d("messageSentAfter", String.valueOf(messageSent));
+                        
+                    }
+                }
+                
+                break;
+                
         }
     }
     
@@ -133,7 +157,7 @@ public class CustomPhoneStateListener extends PhoneStateListener {
         return (audioManager.isBluetoothScoOn() || audioManager.isWiredHeadsetOn() || audioManager.isBluetoothA2dpOn()) ? true : false;
     }
     
-    public void sendRejectCall()
+    private static void sendRejectCall()
     {
         try {
             
@@ -149,9 +173,17 @@ public class CustomPhoneStateListener extends PhoneStateListener {
             
             m3.invoke(iTelephony);
             
+            
+            
         }catch (Exception e){
             
         }
         
+    }
+    
+    private static void sendReplyBySMS(String incomingNumber)
+    {
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(incomingNumber, null, Constant.SMS_MESSAGE, null, null);
     }
 }
